@@ -4,7 +4,10 @@
     <button @click="stampaFilm"> Cerca </button>
     <ul>
       <li v-for="film in films" :key="film.id">
-      {{ film.title }}
+      {{ film.original_title}} {{ '---' }}
+      {{ film.title }} {{ '---' }}
+      {{ film.original_language }} {{ '---' }}
+      {{ film.vote_average }}
       </li>
     </ul>
 
@@ -26,15 +29,9 @@ export default {
     return {
       films: [],
       apiKey: '7ed091e9567506afbcb5cfbea188a586',
-      query: 'future'
+      query: ''
     }
   },
-
-  // computed:{
-  //   stampaFilm() {
-  //     return this.recuperaFilm()
-  //   }
-  // },
 
   methods: {
     recuperaFilm() {
