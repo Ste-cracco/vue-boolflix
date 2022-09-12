@@ -1,8 +1,8 @@
 <template>
     <main>
         <input v-model="query" type="text" placeholder="Inserisci nome film">
-        <button @click="stampaFilm"> Cerca </button>
-        <CreazioneCard :infoFilms="films"/>
+        <button @click="stampaCard"> Cerca </button>
+        <CreazioneCard :infoFilms="newFilms" :infoSerieTv="serieTv"/>
     </main>
 </template>
   
@@ -20,24 +20,50 @@ export default {
     data() {
         return {
             films: [],
+            newFilms: [],
+            serieTv: [],
             apiKey: '7ed091e9567506afbcb5cfbea188a586',
             query: ''
         }
     },
 
     methods: {
-        recuperaFilm() {
-        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}`)
+        recuperaInfo() {
+            if(this.query.trim() === '') {
+                return
+            }
+            axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}`)
+                .then((res) => {
+                    this.films = res.data.results
+                    console.log('Films:',this.films)
+                })
+            axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${this.apiKey}&query=${this.query}`)
             .then((res) => {
-                this.films = res.data.results
-                console.log(this.films)
-            })
+                    this.serieTv = res.data.results
+                    console.log('Serie TV:',this.serieTv)
+                })
         },
 
-        stampaFilm() {
-        return this.recuperaFilm()
+        stampaCard() {
+        return this.recuperaInfo() 
         }
-    } 
+    } ,
+
+    computed: {
+        movies() {
+            return this.films.map((el) => {
+                const newFilms = {
+                    id: el.id,
+                    titolo: el.title,
+                    titolo_originale: el.original_title,
+                    lingua: el.original.language,
+                    bandiera: el.original_language,   
+                    voto: Math.round(el.vote_average / 2)               
+                }
+            return newFilms
+            })
+        }
+    }
 }
   
 </script>
