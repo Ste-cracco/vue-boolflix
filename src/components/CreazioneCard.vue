@@ -1,25 +1,25 @@
 <template>
   <div>
-    <h3>Film</h3>
-    <ul>
-      <li v-for="film in infoFilms" :key="film.id">
-      {{ film.titolo }} {{ '---' }}
-      {{ film.titolo_originale }} {{ '---' }}
-      <img :src="stampaBandiere ? film.bandiera : null "> {{ '---' }}
-      
-      {{ film.voto }}
-      </li>
-    </ul>
+    <h3>Film</h3>   
+      <div v-for="film in infoFilms" :key="film.id">
+        <p>{{ film.titolo }}</p> 
+        <p>{{ film.titolo_originale }}</p>       
+        <img :src="film.bandiera " v-if="film.bandiera">
+        <p v-else> {{ film.lingua }} </p> 
+        <p> {{ film.voto }}</p>    
+        <hr>
+      </div>
+    
 
     <h3>Serie TV</h3>
-    <ul>
-      <li v-for="serie in infoSerieTv" :key="serie.id">
-      {{ serie.original_name }} {{ '---' }}
-      {{ serie.name }} {{ '---' }}
-      {{ serie.original_language }} {{ '---' }}
-      {{ serie.vote_average }}
-      </li>
-    </ul>
+      <div v-for="serie in infoSerieTv" :key="serie.id">
+        <p>{{ serie.titolo }}</p> 
+        <p>{{ serie.titolo_originale }}</p>       
+        <img :src="serie.bandiera " v-if="serie.bandiera">
+        <p v-else> {{ serie.lingua }} </p> 
+        <p> {{ serie.voto }}</p>    
+        <hr>
+      </div>
   </div>
 </template>
 
@@ -35,19 +35,12 @@ export default {
   },
   data() {
     return {
-        arrayBandiere: ['en', 'de', 'it']
+        
     }
   },
 
   computed: {
-      stampaBandiere() {
-          this.arrayBandiere.forEach((el) => {
-            if(el === 'en' || 'de' || 'it') {
-              return true
-            }
-          })
-          return false
-      } 
+      
     },
 }
 

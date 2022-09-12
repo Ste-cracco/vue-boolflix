@@ -2,7 +2,7 @@
     <main>
         <input v-model="query" type="text" placeholder="Inserisci nome film">
         <button @click="stampaCard"> Cerca </button>
-        <CreazioneCard :infoFilms="movies" :infoSerieTv="serieTv" />
+        <CreazioneCard :infoFilms="movies" :infoSerieTv="series" />
     </main>
 </template>
   
@@ -20,8 +20,8 @@ export default {
     data() {
         return {
             films: [],
-            newFilms: [],
             serieTv: [],
+            arrayBandiere: ['en', 'de'],
             apiKey: '7ed091e9567506afbcb5cfbea188a586',
             query: ''
         }
@@ -58,12 +58,37 @@ export default {
                     titolo: el.title,
                     titolo_originale: el.original_title,
                     lingua: el.original_language,
-                    bandiera: require(`../assets/${el.original_language}.jpg`),   
+                    bandiera: '',   
                     voto: Math.round(el.vote_average / 2)               
                 }
+
+                if(this.arrayBandiere.includes(el.original_language)) {
+                    newFilms.bandiera = require(`../assets/${el.original_language}.jpg`)
+                }
+
             return newFilms
             })
-        }
+        },
+
+        series() {
+            return this.serieTv.map((el) => {
+                const newSerieTv = {
+                    id: el.id,
+                    titolo: el.name,
+                    titolo_originale: el.original_name,
+                    lingua: el.original_language,
+                    bandiera: '',   
+                    voto: Math.round(el.vote_average / 2)               
+                }
+
+                if(this.arrayBandiere.includes(el.original_language)) {
+                    newSerieTv.bandiera = require(`../assets/${el.original_language}.jpg`)
+                }
+
+            return newSerieTv
+            })
+        },
+        
     }
 }
   
