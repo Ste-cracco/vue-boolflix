@@ -22,6 +22,8 @@ export default {
             films: [],
             serieTv: [],
             arrayBandiere: ['en', 'de'],
+            poster: [],
+            stelle: [],
             apiKey: '7ed091e9567506afbcb5cfbea188a586',
             query: ''
         }
@@ -32,11 +34,14 @@ export default {
             if(this.query.trim() === '') {
                 return
             }
+            // Info Film 
             axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}`)
                 .then((res) => {
                     this.films = res.data.results
-                    console.log('Films:',this.films)
+                    this.poster = res.data.results
+                    console.log('Films:',this.films, 'Poster:',this.poster)
                 })
+            // Info Serie TV 
             axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${this.apiKey}&query=${this.query}`)
             .then((res) => {
                     this.serieTv = res.data.results
@@ -59,6 +64,7 @@ export default {
                     titolo_originale: el.original_title,
                     lingua: el.original_language,
                     bandiera: '',   
+                    poster: `https://image.tmdb.org/t/p/w342/${el.poster_path}`,
                     voto: Math.round(el.vote_average / 2)               
                 }
 
@@ -78,6 +84,7 @@ export default {
                     titolo_originale: el.original_name,
                     lingua: el.original_language,
                     bandiera: '',   
+                    poster: `https://image.tmdb.org/t/p/w342/${this.poster}`,
                     voto: Math.round(el.vote_average / 2)               
                 }
 

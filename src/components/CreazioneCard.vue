@@ -2,8 +2,9 @@
   <div>
     <h3>Film</h3>   
       <div v-for="film in infoFilms" :key="film.id">
+        <img :src="film.poster" alt="">   
         <p>{{ film.titolo }}</p> 
-        <p>{{ film.titolo_originale }}</p>       
+        <p>{{ film.titolo_originale }}</p>    
         <img :src="film.bandiera " v-if="film.bandiera">
         <p v-else> {{ film.lingua }} </p> 
         <p> {{ film.voto }}</p>    
@@ -13,8 +14,9 @@
 
     <h3>Serie TV</h3>
       <div v-for="serie in infoSerieTv" :key="serie.id">
+        <img :src="serie.poster" alt="">  
         <p>{{ serie.titolo }}</p> 
-        <p>{{ serie.titolo_originale }}</p>       
+        <p>{{ serie.titolo_originale }}</p>   
         <img :src="serie.bandiera " v-if="serie.bandiera">
         <p v-else> {{ serie.lingua }} </p> 
         <p> {{ serie.voto }}</p>    
