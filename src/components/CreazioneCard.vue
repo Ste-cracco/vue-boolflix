@@ -5,7 +5,7 @@
       <li v-for="film in infoFilms" :key="film.id">
       {{ film.titolo }} {{ '---' }}
       {{ film.titolo_originale }} {{ '---' }}
-      <img :src="require(`../assets/${film.bandiera}.jpg`)" alt="">{{ film.original_language }} {{ '---' }}
+      <img :src="stampaBandiere ? film.bandiera : null "> {{ '---' }}
       
       {{ film.voto }}
       </li>
@@ -35,12 +35,19 @@ export default {
   },
   data() {
     return {
-
+        arrayBandiere: ['en', 'de', 'it']
     }
   },
 
-  methods: {
-
+  computed: {
+      stampaBandiere() {
+          this.arrayBandiere.forEach((el) => {
+            if(el === 'en' || 'de' || 'it') {
+              return true
+            }
+          })
+          return false
+      } 
     },
 }
 

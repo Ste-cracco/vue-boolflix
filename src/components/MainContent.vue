@@ -2,7 +2,7 @@
     <main>
         <input v-model="query" type="text" placeholder="Inserisci nome film">
         <button @click="stampaCard"> Cerca </button>
-        <CreazioneCard :infoFilms="newFilms" :infoSerieTv="serieTv"/>
+        <CreazioneCard :infoFilms="movies" :infoSerieTv="serieTv" />
     </main>
 </template>
   
@@ -46,7 +46,8 @@ export default {
 
         stampaCard() {
         return this.recuperaInfo() 
-        }
+        },
+
     } ,
 
     computed: {
@@ -56,8 +57,8 @@ export default {
                     id: el.id,
                     titolo: el.title,
                     titolo_originale: el.original_title,
-                    lingua: el.original.language,
-                    bandiera: el.original_language,   
+                    lingua: el.original_language,
+                    bandiera: require(`../assets/${el.original_language}.jpg`),   
                     voto: Math.round(el.vote_average / 2)               
                 }
             return newFilms
