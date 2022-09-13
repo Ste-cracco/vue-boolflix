@@ -6,8 +6,15 @@
         <p>{{ film.titolo }}</p> 
         <p>{{ film.titolo_originale }}</p>    
         <img :src="film.bandiera " v-if="film.bandiera">
-        <p v-else> {{ film.lingua }} </p> 
-        <p> {{ film.voto }}</p>    
+        <p v-else> {{ film.lingua }} </p>   
+
+        <li v-for=" n in film.voto" :key="n">
+          <font-awesome-icon icon="fa-solid fa-star" /> 
+        </li>
+        <li v-for=" n in ( 5 - film.voto)" :key="n + film.voto">
+          <font-awesome-icon icon="fa-regular fa-star" />       
+        </li>     
+
         <hr>
       </div>
     
@@ -19,7 +26,12 @@
         <p>{{ serie.titolo_originale }}</p>   
         <img :src="serie.bandiera " v-if="serie.bandiera">
         <p v-else> {{ serie.lingua }} </p> 
-        <p> {{ serie.voto }}</p>    
+        <li v-for=" n in serie.voto" :key="n">
+          <font-awesome-icon icon="fa-solid fa-star" /> 
+        </li>
+        <li v-for=" n in ( 5 - serie.voto)" :key="n + serie.voto">
+          <font-awesome-icon icon="fa-regular fa-star" />       
+        </li>        
         <hr>
       </div>
   </div>

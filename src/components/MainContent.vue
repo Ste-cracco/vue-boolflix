@@ -2,7 +2,7 @@
     <main>
         <input v-model="query" type="text" placeholder="Inserisci nome film">
         <button @click="stampaCard"> Cerca </button>
-        <CreazioneCard :infoFilms="movies" :infoSerieTv="series" />
+        <CreazioneCard :infoFilms="movies" :infoSerieTv="series"  />
     </main>
 </template>
   
@@ -22,8 +22,8 @@ export default {
             films: [],
             serieTv: [],
             arrayBandiere: ['en', 'de'],
-            poster: [],
-            stelle: [],
+            posterFilm: [],
+            posterSerieTv: [],
             apiKey: '7ed091e9567506afbcb5cfbea188a586',
             query: ''
         }
@@ -38,13 +38,14 @@ export default {
             axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}`)
                 .then((res) => {
                     this.films = res.data.results
-                    this.poster = res.data.results
+                    this.posterFilm = res.data.results
                     console.log('Films:',this.films, 'Poster:',this.poster)
                 })
             // Info Serie TV 
             axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${this.apiKey}&query=${this.query}`)
             .then((res) => {
                     this.serieTv = res.data.results
+                    this.posterSerieTv = res.data.results
                     console.log('Serie TV:',this.serieTv)
                 })
         },
@@ -84,7 +85,7 @@ export default {
                     titolo_originale: el.original_name,
                     lingua: el.original_language,
                     bandiera: '',   
-                    poster: `https://image.tmdb.org/t/p/w342/${this.poster}`,
+                    poster: `https://image.tmdb.org/t/p/w342/${el.poster_path}`,
                     voto: Math.round(el.vote_average / 2)               
                 }
 
@@ -95,7 +96,6 @@ export default {
             return newSerieTv
             })
         },
-        
     }
 }
   
