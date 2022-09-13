@@ -1,21 +1,22 @@
 <template>
     <main>
-        <input v-model="query" type="text" placeholder="Inserisci nome film">
-        <button @click="stampaCard"> Cerca </button>
-        <CreazioneCard :infoFilms="movies" :infoSerieTv="series"  />
+        <MainHeader @onResponse="setMovies"/> <!-- Invoco l'evento custom e gli passo il metodo -->
+        <CreazioneCard :infoFilms="movies" />
     </main>
 </template>
   
 <script>
-import axios from "axios"
-import CreazioneCard from "./CreazioneCard.vue" 
+
+import CreazioneCard from "./CreazioneCard.vue"
+import MainHeader from "./MainHeader.vue" 
   
 export default {
   
     name: 'MainContent',
     components: {
-    CreazioneCard
-    }, 
+    CreazioneCard,
+    MainHeader
+}, 
 
     data() {
         return {
@@ -23,38 +24,15 @@ export default {
             serieTv: [],
             arrayBandiere: ['en', 'de'],
             posterFilm: [],
-            posterSerieTv: [],
-            apiKey: '7ed091e9567506afbcb5cfbea188a586',
-            query: ''
+            posterSerieTv: []            
         }
     },
 
     methods: {
-        recuperaInfo() {
-            if(this.query.trim() === '') {
-                return
-            }
-            // Info Film 
-            axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}`)
-                .then((res) => {
-                    this.films = res.data.results
-                    this.posterFilm = res.data.results
-                    console.log('Films:',this.films, 'Poster:',this.poster)
-                })
-            // Info Serie TV 
-            axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${this.apiKey}&query=${this.query}`)
-            .then((res) => {
-                    this.serieTv = res.data.results
-                    this.posterSerieTv = res.data.results
-                    console.log('Serie TV:',this.serieTv)
-                })
-        },
-
-        stampaCard() {
-        return this.recuperaInfo() 
-        },
-
-    } ,
+        setMovies(movie) { // movie corrisponde a res.data.result (il parametro passato all'evento custom)
+            this.films = movie
+        }
+    },
 
     computed: {
         movies() {
@@ -77,25 +55,25 @@ export default {
             })
         },
 
-        series() {
-            return this.serieTv.map((el) => {
-                const newSerieTv = {
-                    id: el.id,
-                    titolo: el.name,
-                    titolo_originale: el.original_name,
-                    lingua: el.original_language,
-                    bandiera: '',   
-                    poster: `https://image.tmdb.org/t/p/w342/${el.poster_path}`,
-                    voto: Math.round(el.vote_average / 2)               
-                }
+        // series() {
+        //     return this.serieTv.map((el) => {
+        //         const newSerieTv = {
+        //             id: el.id,
+        //             titolo: el.name,
+        //             titolo_originale: el.original_name,
+        //             lingua: el.original_language,
+        //             bandiera: '',   
+        //             poster: `https://image.tmdb.org/t/p/w342/${el.poster_path}`,
+        //             voto: Math.round(el.vote_average / 2)               
+        //         }
 
-                if(this.arrayBandiere.includes(el.original_language)) {
-                    newSerieTv.bandiera = require(`../assets/${el.original_language}.jpg`)
-                }
+        //         if(this.arrayBandiere.includes(el.original_language)) {
+        //             newSerieTv.bandiera = require(`../assets/${el.original_language}.jpg`)
+        //         }
 
-            return newSerieTv
-            })
-        },
+        //     return newSerieTv
+        //     })
+        // },
     }
 }
   

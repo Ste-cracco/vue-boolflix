@@ -19,7 +19,7 @@
       </div>
     
 
-    <h3>Serie TV</h3>
+    <!-- <h3>Serie TV</h3>
       <div v-for="serie in infoSerieTv" :key="serie.id">
         <img :src="serie.poster" alt="">  
         <p>{{ serie.titolo }}</p> 
@@ -33,7 +33,7 @@
           <font-awesome-icon icon="fa-regular fa-star" />       
         </li>        
         <hr>
-      </div>
+      </div> -->
   </div>
 </template>
 
