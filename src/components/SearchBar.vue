@@ -25,19 +25,15 @@ export default {
             // Info Film 
             axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}`)
                 .then((res) => {
-                    this.films = res.data.results
-                    this.posterFilm = res.data.results
-                    console.log('Films:',this.films, 'Poster:',this.poster)
                     // Alla risposta del server emettiamo un evento custom e gli passiamo l'array dei film
-                    this.$emit('onResponse', res.data.result)
+                    this.$emit('onResponseFilm', res.data.results)
                 })
             // Info Serie TV 
             axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${this.apiKey}&query=${this.query}`)
-            .then((res) => {
-                    this.serieTv = res.data.results
-                    this.posterSerieTv = res.data.results
-                    console.log('Serie TV:',this.serieTv)
-                })
+                .then((res) => {
+                        //                     
+                        this.$emit('onResponseSeries', res.data.results)
+                    })
         },
 
         stampaCard() {
